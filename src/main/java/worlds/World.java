@@ -34,6 +34,10 @@ public class World {
     }
 
     public Tile getTile(int x, int y){
+        // This will return a grass tile if the player somehow goes out of the map. Avoids nasty stuff.
+        if(x < 0 || y < 0 || x >= width || y >= height){
+            return Tile.grassTile;
+        }
 
         // Gets tile from the tiles array in the Tile class base on its index
         Tile t = Tile.tiles[worldTiles[x][y]];

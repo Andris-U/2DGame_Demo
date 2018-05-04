@@ -3,6 +3,7 @@ package entities.creatures;
 import entities.Entity;
 import handler.Handler;
 import launcher.Game;
+import tiles.Tile;
 
 import java.awt.*;
 
@@ -26,8 +27,47 @@ public abstract class Creature extends Entity {
     }
 
     public void move(){
-        x+= xMove;
-        y += yMove;
+        moveX();
+        moveY();
+    }
+
+    public void moveX() {
+        if (xMove > 0) {//Moving right
+            // This line gives us the coords of the tile we try to move into
+            int tx = (int) (x + xMove + bounds.x + bounds.width) / Tile.TILEWIDTH;
+            // In the following line y is set to the upper & lower right corner of the hitbox
+            if (!collisionWithTile(tx, (int) (y + bounds.y) / Tile.TILEHEIGHT) && !collisionWithTile(tx, (int) (y + bounds.y + bounds.height) / Tile.TILEHEIGHT)) {
+                x += xMove;
+            }
+        } else if (xMove < 0) {// Moving left
+            int tx = (int) (x + xMove + bounds.x) / Tile.TILEWIDTH;
+            if (!collisionWithTile(tx, (int) (y + bounds.y) / Tile.TILEHEIGHT) && !collisionWithTile(tx, (int) (y + bounds.y + bounds.height) / Tile.TILEHEIGHT)) {
+                x += xMove;
+            }
+
+        }
+    }
+
+    public void moveY(){
+        if(yMove < 0){// Moving up
+            int ty = (int) (y + yMove + bounds.y) / Tile.TILEHEIGHT;
+
+            if(!collisionWithTile((int) (x + bounds.x) / Tile.TILEWIDTH, ty) && !collisionWithTile((int) (x + bounds.x + bounds.width) / Tile.TILEWIDTH, ty)){
+                y += yMove;
+            }
+        }else if(yMove > 0){// Moving down
+            int ty = (int) (y + yMove + bounds.y + bounds.height) / Tile.TILEHEIGHT;
+
+            if(!collisionWithTile((int) (x + bounds.x) / Tile.TILEWIDTH, ty) && !collisionWithTile((int) (x + bounds.x + bounds.width) / Tile.TILEWIDTH, ty)){
+                y += yMove;
+            }
+        }
+    }
+
+
+    protected boolean collisionWithTile(int x, int y){
+        // Checks the tile at given coords to see if it's solid
+        return handler.getWorld().getTile(x, y).isSolid();
     }
 
 //    Getters n Setters
