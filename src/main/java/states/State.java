@@ -1,5 +1,6 @@
 package states;
 
+import handler.Handler;
 import launcher.Game;
 
 import java.awt.*;
@@ -17,10 +18,10 @@ public abstract class State {
     }
 
     // CLASS
-    protected Game game;
+    protected Handler handler;
 
-    public State(Game game){
-        this.game = game;
+    public State(Handler handler){
+        this.handler = handler;
     }
 
     public abstract void tick();

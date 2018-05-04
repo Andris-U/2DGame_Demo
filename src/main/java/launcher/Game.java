@@ -4,6 +4,7 @@ import display.Display;
 import gfx.Assets;
 import gfx.ImageLoader;
 import gfx.SpriteSheet;
+import handler.Handler;
 import input.KeyManager;
 import states.GameState;
 import states.MenuState;
@@ -34,6 +35,9 @@ public class Game implements Runnable {
     // Input
     private KeyManager keyManager;
 
+    // Handler
+    private Handler handler;
+
     public Game(String title, int width, int height) {
         this.width = width;
         this.height = height;
@@ -46,8 +50,11 @@ public class Game implements Runnable {
         display.getFrame().addKeyListener(keyManager);
         Assets.init();
 
-        gameState = new GameState(this);
-        menuState = new MenuState(this);
+        // handler takes a Game object
+        handler = new Handler(this);
+
+        gameState = new GameState(handler);
+        menuState = new MenuState(handler);
         State.setState(gameState);
     }
 
@@ -147,5 +154,21 @@ public class Game implements Runnable {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+    public Display getDisplay() {
+        return display;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public String getTitle() {
+        return title;
     }
 }

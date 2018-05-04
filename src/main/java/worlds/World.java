@@ -1,5 +1,6 @@
 package worlds;
 
+import handler.Handler;
 import launcher.Game;
 import tiles.Tile;
 import utils.Utils;
@@ -8,14 +9,14 @@ import java.awt.*;
 
 public class World {
 
-    private Game game;
+    private Handler handler;
     private int width, height;
     private int spawnX, spawnY;
     private int[][] worldTiles;
 
-    public World(Game game, String path){
+    public World(Handler handler, String path){
 
-        this.game = game;
+        this.handler = handler;
         //Constructor calls loadWorld() right away
         loadWorld(path);
     }
