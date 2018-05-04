@@ -1,16 +1,20 @@
 package entities;
 
+import launcher.Game;
+
 import java.awt.*;
 
 public abstract class Entity {
 
+    protected Game game;
     // We choose floats here to achieve smooth movement. Weird, I know, since the measure
     // things in pixels, but it will help in the calculations making movement more
     // accurate and less clunky.
     protected float x, y;
     protected int width, height;
 
-    public Entity(float x, float y, int width, int height) {
+    public Entity(Game game, float x, float y, int width, int height) {
+        this.game = game;
         this.x = x;
         this.y = y;
         this.width = width;
