@@ -4,6 +4,7 @@ import display.Display;
 import gfx.Assets;
 import gfx.ImageLoader;
 import gfx.SpriteSheet;
+import input.KeyManager;
 import states.GameState;
 import states.MenuState;
 import states.State;
@@ -30,23 +31,30 @@ public class Game implements Runnable {
     private State gameState;
     private State menuState;
 
+    // Input
+    private KeyManager keyManager;
+
     public Game(String title, int width, int height) {
         this.width = width;
         this.height = height;
         this.title = title;
+        keyManager = new KeyManager();
     }
 
     private void init(){
         display = new Display(title, width, height);
+        display.getFrame().addKeyListener(keyManager);
         Assets.init();
 
-        gameState = new GameState();
-        menuState = new MenuState();
+        gameState = new GameState(this);
+        menuState = new MenuState(this);
         State.setState(gameState);
     }
 
 
     private void tick(){
+        keyManager.tick();
+
         if(State.getCurrentState() != null){
             State.getCurrentState().tick();
         }
@@ -108,14 +116,17 @@ public class Game implements Runnable {
             }
 
             if(timer >= 1000000000){
-                System.out.println("Ticks and Frames: " + ticks);
-                ticks = 0;
-                timer = 0;
+//                System.out.println("Ticks and Frames: " + ticks);
+//                ticks = 0;
+//                timer = 0;
             }
         }
         stop();
     }
 
+    public KeyManager getKeyManager() {
+        return keyManager;
+    }
 
     // When executed creates a new thread for our launcher, thus separating the process into a 'sub-program.'
     // Impact on performance on larger games.
