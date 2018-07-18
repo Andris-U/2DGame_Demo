@@ -59,7 +59,6 @@ public class Player extends Creature{
 
     @Override
     public void render(Graphics g) {
-        // TODO: Update for animations
         g.drawImage(getCurrentAnimationFrame(), (int) x, (int) y, null);
 
         // This is just the hitbox below.
@@ -68,6 +67,7 @@ public class Player extends Creature{
     }
 
     private BufferedImage getCurrentAnimationFrame(){
+        //TODO: set idle frame for every direction
         if(xMove < 0){
             return animLeft.getCurrentFrame();
         }else if(xMove > 0){
